@@ -6,6 +6,9 @@ from currency_converter import ECB_URL, CurrencyConverter
 from datetime import date, datetime, timedelta
 import numpy as np
 
+INPUT_URL = os.environ.get("INPUT_URL")
+OUTPUT_URL = os.environ.get("OUTPUT_URL")
+
 def connect_db(url,db,collection):
   uri = url
   # Create a new client and connect to the server
@@ -16,7 +19,7 @@ def connect_db(url,db,collection):
   #table=client.india.onion_news_raw
   return table
 
-url="mongodb+srv://parameter:parameter@cluster0.va2sth1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+url=INPUT_URL
 table=connect_db(url,"india","onion_news_raw")
 
 data_list=table.find()
@@ -87,8 +90,8 @@ df['Flag_Value'] = df['Flag_Start_Stop'].apply(lambda x: 1 if x == 'Start' else 
 df_final=df[['Date','MEP_Updated','Contract_Kg','MEP_INR_PERKG','Flag_Value']]
 data_list=df_final.to_dict(orient='records')
 
-url="mongodb+srv://parameter:parameter@cluster0.va2sth1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-table=connect_db(url,"india","onion_news")
+url2=OUTPUT_URL
+table=connect_db(url2,"india","onion_news")
 table.delete_many({})
 # Insert the new data
 table.insert_many(data_list)
