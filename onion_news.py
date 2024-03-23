@@ -5,6 +5,7 @@ import pandas as pd
 from currency_converter import ECB_URL, CurrencyConverter
 from datetime import date, datetime, timedelta
 import numpy as np
+import os
 
 INPUT_URL = os.environ.get("INPUT_URL")
 OUTPUT_URL = os.environ.get("OUTPUT_URL")
