@@ -2,7 +2,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import csv
 import pandas as pd
-from currency_converter import ECB_URL, CurrencyConverter
+from forex_python.converter import CurrencyRates
 from datetime import date, datetime, timedelta
 import numpy as np
 import os
@@ -55,7 +55,7 @@ for i in range(len(df) - 1):
     if pd.isnull(next_flag):
         df.loc[i + 1, 'Flag_Start_Stop'] = current_flag
 df['MEP_Updated'] = df.apply(lambda x: x['MEP'] if x['Flag_Start_Stop'] == 'Start' else None, axis=1)
-c = CurrencyConverter()
+c = CurrencyRates()
 # Start date
 start_date = datetime(2000, 1, 1)
 # Today's date
@@ -71,7 +71,7 @@ while current_date <= end_date:
 exchange_df = pd.DataFrame({'Date': date_list})
 def convert_currency(x):
   try:
-    cr=c.convert(1, 'USD', 'INR', x)
+    cr=c.get_rate('USD', 'INR', x)
     #print(x)
     return cr
   except Exception as e:
