@@ -28,7 +28,7 @@ df=pd.DataFrame(data_list)
 date_format = "%d.%m.%Y"
 df['Date'] = pd.to_datetime(df['Date'], format=date_format)
 df=df.sort_values(by='Date')
-df['MEP'] = df['MEP'].fillna(method='ffill')
+df['MEP'] = df['MEP'].ffill()
 # Remove duplicate dates
 df = df.drop_duplicates(subset='Date')
 # Reindex the DataFrame to include all dates within the date range
